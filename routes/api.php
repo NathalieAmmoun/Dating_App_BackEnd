@@ -40,4 +40,13 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('user-profile', [AuthController::class, 'userProfile']);
+
+
+    Route::get('display', [AuthController::class, 'display']);
+    Route::post('display-profile-data', [AuthController::class, 'getProfileData']);
+    Route::post('edit-profile-information', [AuthController::class, 'editProfileInformation']);
+    Route::post('edit-hobby/{hobby_id}', [AuthController::class, 'editHobby']);
+    Route::post('delete-hobby/{hobby_id}', [AuthController::class, 'deleteHobby']);
+    Route::post('edit-interest/{interest_id}', [AuthController::class, 'editInterest']);
+    Route::post('delete-interest/{interest_id}', [AuthController::class, 'deleteInterest']);
 });

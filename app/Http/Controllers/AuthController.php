@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\UserPicture;
+use App\Models\UserHobby;
+use App\Models\UserInterest;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -124,9 +127,102 @@ class AuthController extends Controller
      */
     public function userProfile()
     {
-        return response()->json(auth()->user());
+        $user_id=auth()->user()->id;
+        $result = AuthController::displayFullProfile($user_id);
+        return $result;
     }
 
+    //Display potential matches Based on their gender and what gender they are interested in and 
+    public function display(){
+        $gender = auth()->user()->gender;
+        $interested_in = auth()->user()->interested_in;
+      
+        $users_array = array();
+        $users_array = User::where('gender', $interested_in)
+                        ->where('interested_in', $gender)
+                        ->get();
+        $id = 0;
+        $pictures_array = array();
+        for($i = 0; $i < count($users_array); $i++){
+            $id = $users_array[$i]->id;
+            $pictures_array[$i]= UserPicture::where('user_id',$id)
+                                            ->where('is_approved', '1')
+                                            ->get("id","picture_url");
+        }
+
+        $result = array();
+        for($j = 0; $j < count($users_array); $j++){
+            $result[$j]["user"] = $users_array[$j];
+            $result[$j]["pictures"] = $pictures_array[$j];
+        }
+
+        return json_encode($result ,JSON_PRETTY_PRINT);
+    }
+    public function displayFullProfile($id){
+        $user = array();
+        $user = User::find($id);
+        $pictures = array();
+        $pictures = UserPicture::where('user_id',$id)
+                                ->where('is_approved', '1')
+                                ->get(["id","picture_url"]);
+        $hobbies_array=array();
+        $hobbies_array = UserHobby::where('user_id',$id)
+                                    ->get(["id","name"]);
+        $interests_array=array();
+        $interests_array = UserInterest::where('user_id',$id)
+                                    ->get(["id","name"]); 
+        $result = array();                          
+        $result["user"] = $user;
+        $result["pictures"]= $pictures;
+        $result["hobbies"]= $hobbies_array;
+        $result["interests"]= $interests_array;
+        return json_encode($result ,JSON_PRETTY_PRINT);
+    }
+    //Display Full Profile of Specific User After Clicking on his/her Profile to Logged In User
+    public function getProfileData(Request $req){
+        $user_id = $req->user_id;
+        $result = AuthController::displayFullProfile($user_id);
+        return $result;
+    }
+
+    
+    public function editProfileInformation(Request $req){
+        $id =auth()->user()->id;
+        $user = User::find($id);
+        $user->name = $req->name;   
+        $user->gender = $req->gender;
+        $user->interested_in = $req->interested_in;
+        $user->dob = $req->dob;
+        $user->height = $req->height;
+        $user->nationality = $req->nationality;
+        $user->bio = $req->bio;
+        $user->save();
+        return response()->json(['message' => 'profile successfully updated']);
+    }
+    public function editHobby(Request $req){
+        $hobby_id =$req->hobby_id;
+        $hobby = UserHobby::find($hobby_id);
+        $hobby->name = $req->name;   
+        $hobby->save();
+        return response()->json(['message' => 'Hobby successfully updated']);
+    }
+    public function deleteHobby(Request $req){
+        $hobby_id =$req->hobby_id;
+        $hobby = UserHobby::where('id', $hobby_id)->delete();
+        return response()->json(['message' => 'Hobby successfully deleted',]);
+    }
+    public function editInterest(Request $req){
+        $interest_id =$req->interest_id;
+        $interest = UserInterest::find($interest_id);
+        $interest->name = $req->name;   
+        $interest->save();
+        return response()->json(['message' => 'Interest successfully updated']);
+    }
+    public function deleteInterest(Request $req){
+        $interest_id =$req->interest_id;
+        $interest = UserInterest::where('id', $interest_id)->delete();
+        return response()->json(['message' => 'Interest successfully deleted',]);
+    }
     /**
      * Get the token array structure.
      *
