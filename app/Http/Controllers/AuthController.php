@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\UserPicture;
 use App\Models\UserHobby;
 use App\Models\UserInterest;
+use App\Models\UserFavorite;
+use App\Models\UserNotification;
+use App\Models\UserConnection;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -223,6 +226,156 @@ class AuthController extends Controller
         $interest = UserInterest::where('id', $interest_id)->delete();
         return response()->json(['message' => 'Interest successfully deleted',]);
     }
+
+    public function search(Request $request){
+        $user_id = auth()->user()->id;
+        $name = $request->name;
+        $gender = auth()->user()->gender;
+        $interested_in = auth()->user()->interested_in;
+
+        //get IDs of favorites of logged in user;
+       $favorites_user2_id = UserFavorite::where('user1_id', $user_id)
+                            ->pluck('user2_id')
+                            ->all();  
+
+       $users_array = array();
+       $users_array = User::where('name', 'LIKE', '%'.$name.'%')
+                        ->where('gender', $interested_in)
+                        ->where('interested_in', $gender)
+                        ->whereNotIn('id', $favorites_user2_id)
+                        ->get();
+
+        $id = 0;
+        $pictures_array = array();
+        for($i = 0; $i < count($users_array); $i++){
+            $id = $users_array[$i]->id;
+            $pictures_array[$i]= UserPicture::where('user_id',$id)
+                                            ->where('is_approved', '1')
+                                            ->get("picture_url");
+        }
+
+        $result = array();
+        for($j = 0; $j < count($users_array); $j++){
+            $result[$j]["user"] = $users_array[$j];
+            $result[$j]["pictures"] = $pictures_array[$j];
+        }
+
+        return json_encode($result, JSON_PRETTY_PRINT);
+    }
+
+    public function favorite(Request $request){
+        $user1_id = auth()->user()->id;
+        $user1_name = auth()->user()->name;
+        $user2_id = $request->user2_id;
+        $user2_name = User::find($user2_id)->userName();
+
+        //add to favorites
+        $user_favorite = new UserFavorite();
+        $user_favorite->user1_id = $user1_id;
+        $user_favorite->user2_id = $user2_id;
+        $user_favorite->save();
+
+
+        //check if user 2 favorites user 1
+        $check_favorite = UserFavorite::where('user1_id', $user2_id)
+                                        ->where('user2_id', $user1_id)
+                                        ->get();
+        
+        //if there's no match
+        if(empty($check_favorite)){
+
+            //send a notification to user 2
+            $user_notification = new UserNotification();
+            $user_notification->user_id = $user2_id;
+            $user_notification->created_by_user_id = $user1_id;
+            $user_notification->body = $user1_name." likes you!";
+            $user_notification->is_read = "0";
+            $user_notification->save();
+
+        }
+
+        else{
+
+            //send a notification to user 1 to let them know about the match
+            $user_notification1 = new UserNotification();
+            $user_notification1->user_id = $user1_id;
+            $user_notification1->created_by_user_id = $user2_id;
+            $user_notification1->body = $user2_name." matches you!";
+            $user_notification1->is_read = "0";
+            $user_notification1->save();
+
+            //add user 2 to connections of user 1
+            $user_connection1 = new UserConnection();
+            $user_connection1->user1_id = $user1_id;
+            $user_connection1->user2_id = $user2_id;
+            $user_connection1->save();
+
+            //send a notification to user 2 to let them know about the match
+            $user_notification2 = new UserNotification();
+            $user_notification2->user_id = $user2_id;
+            $user_notification2->created_by_user_id = $user1_id;
+            $user_notification2->body = $user1_name." matches you!";
+            $user_notification2->is_read = "0";
+            $user_notification2->save();
+
+            //add user 1 to connections of user 2
+            $user_connection2 = new UserConnection();
+            $user_connection2->user1_id = $user2_id;
+            $user_connection2->user2_id = $user1_id;
+            $user_connection2->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User added to favorites',
+        ], 201);
+    }
+
+    //get notifications for logged in user
+    public function getNotifications(){
+        $user_id = auth()->user()->id;
+
+        $notifications_array = UserNotification::where('user_id' , $user_id)
+                                                ->get();
+
+        return json_encode($notifications_array, JSON_PRETTY_PRINT);
+    }
+
+
+    public function getFavorites(){
+        $user_id = auth()->user()->id;
+
+        $favorite_users_id = UserFavorite::where('user1_id', $user_id)
+        ->pluck('user2_id')
+        ->all();
+        
+        $favorites = array();
+        for($i = 0; $i < count($favorite_users_id); $i++){
+            $favorites[$i] = User::where('id', $favorite_users_id[$i])->get();
+            $favorites[$i]["pictures"] = UserPicture::where('user_id', $favorite_users_id[$i])->where('is_approved', '1')->get();
+
+        } 
+
+        return json_encode($favorites, JSON_PRETTY_PRINT);
+    }
+
+    public function getConnections(){
+        $user_id = auth()->user()->id;
+
+        $connection_users_id = UserConnection::where('user1_id', $user_id)
+        ->pluck('user2_id')
+        ->all();
+
+        $connections  = array();
+        for($i = 0; $i < count($connection_users_id); $i++){
+            $connections[$i]["info"] = User::where('id', $connection_users_id[$i])->get();
+            $connections[$i]["pictures"] = UserPicture::where('user_id', $connection_users_id[$i])->where('is_approved', '1')->get();
+        } 
+
+        return json_encode($connections, JSON_PRETTY_PRINT);
+    }
+
+
     /**
      * Get the token array structure.
      *

@@ -29,11 +29,11 @@ Route::group([
     'prefix' => 'auth'
 
 ], function () {
+    //Jamal
     Route::post('picture_upload', [PictureUpload::class, 'pictureUpload']);
     Route::post('PictureApproval', [PictureApproval::class, 'PictureApproval']);
     Route::post('PictureEdit', [PictureEdit::class, 'PictureEdit']);
     Route::post('PictureDelete', [PictureDelete::class, 'PictureDelete']);
-
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
@@ -41,7 +41,7 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('user-profile', [AuthController::class, 'userProfile']);
 
-
+    //Nathalie
     Route::get('display', [AuthController::class, 'display']);
     Route::post('display-profile-data', [AuthController::class, 'getProfileData']);
     Route::post('edit-profile-information', [AuthController::class, 'editProfileInformation']);
@@ -49,4 +49,11 @@ Route::group([
     Route::post('delete-hobby/{hobby_id}', [AuthController::class, 'deleteHobby']);
     Route::post('edit-interest/{interest_id}', [AuthController::class, 'editInterest']);
     Route::post('delete-interest/{interest_id}', [AuthController::class, 'deleteInterest']);
+
+    //Waseem
+    Route::post('search', [AuthController::class, 'search']);
+    Route::post('favorite', [AuthController::class, 'favorite']);
+    Route::get('notifications', [AuthController::class, 'getNotifications']);
+    Route::get('get-favorites', [AuthController::class, 'getFavorites']);
+    Route::get('get-connections', [AuthController::class, 'getConnections']);
 });
