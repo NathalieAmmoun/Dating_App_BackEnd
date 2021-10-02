@@ -48,6 +48,14 @@ class CreateUsersTable extends Migration
 			$table->softDeletes();
         });
 
+        Schema::create('user_favorites', function (Blueprint $table) {
+            $table->id();
+			$table->integer('user1_id');
+            $table->integer('user2_id');
+            $table->timestamps();
+			$table->softDeletes();
+        });
+
 
 		Schema::create('user_blocked', function (Blueprint $table) {
             $table->id();
@@ -89,6 +97,7 @@ class CreateUsersTable extends Migration
 		Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
 			$table->integer('user_id');
+            $table->integer('created_by_user_id');
             $table->string('body');
 			$table->boolean('is_read');
             $table->timestamps();
@@ -110,5 +119,6 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('user_interests');
         Schema::dropIfExists('user_hobbies');
         Schema::dropIfExists('user_notifications');
+        Schema::dropIfExists('user_favorites');
     }
 }
