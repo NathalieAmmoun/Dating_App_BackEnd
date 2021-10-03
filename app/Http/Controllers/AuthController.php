@@ -12,6 +12,7 @@ use App\Models\UserFavorite;
 use App\Models\UserNotification;
 use App\Models\UserConnection;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'adminLogin']]);
     }
 
     /**
@@ -48,6 +49,25 @@ class AuthController extends Controller
         return $this->createNewToken($token);
     }
 
+    public function adminLogin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if (!$token = auth()->attempt($validator->validated())) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+        return redirect()->route('dashboard', ['access_token' => $token]);
+        // return $this->createNewToken($token);
+    }
+
     /**
      * Register a User.
      *
@@ -62,9 +82,6 @@ class AuthController extends Controller
             'gender' => 'required|boolean',
             'interested_in' => 'required|boolean',
             'dob' => 'date|before:-18 years|required',
-            'height' => 'integer|required',
-            'nationality' => 'string|required',
-            'bio' => 'string|required'
 
         ]);
 
@@ -88,9 +105,6 @@ class AuthController extends Controller
         $user->gender = $request->gender;
         $user->interested_in = $request->interested_in;
         $user->dob = $request->dob;
-        $user->height = $request->height;
-        $user->nationality = $request->nationality;
-        $user->bio = $request->bio;
         $user->save();
 
         return response()->json([
