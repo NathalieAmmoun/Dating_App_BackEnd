@@ -8,7 +8,8 @@ use App\Http\Controllers\PictureApis\PictureUpload;
 use App\Http\Controllers\PictureApis\PictureApproval;
 use App\Http\Controllers\PictureApis\PictureEdit;
 use App\Http\Controllers\PictureApis\PictureDelete;
-
+use App\Http\Controllers\PictureApis\UnapprovedPics;
+use App\Http\Controllers\ViewController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,13 +35,14 @@ Route::group([
     Route::post('PictureApproval', [PictureApproval::class, 'PictureApproval']);
     Route::post('PictureEdit', [PictureEdit::class, 'PictureEdit']);
     Route::post('PictureDelete', [PictureDelete::class, 'PictureDelete']);
+    Route::get('UnapprovedPics', [UnapprovedPics::class, 'UnapprovedPics']);
 
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('register', [AuthController::class, 'register']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('user-profile', [AuthController::class, 'userProfile']);
-
+    
     //Nathalie
     Route::get('display', [AuthController::class, 'display']);
     Route::post('display-profile-data', [AuthController::class, 'getProfileData']);
