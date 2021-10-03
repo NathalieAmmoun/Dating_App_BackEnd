@@ -44,7 +44,7 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
+        
         return $this->createNewToken($token);
     }
 
@@ -374,7 +374,6 @@ class AuthController extends Controller
 
         return json_encode($connections, JSON_PRETTY_PRINT);
     }
-
 
     /**
      * Get the token array structure.
