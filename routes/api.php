@@ -21,6 +21,11 @@ use App\Http\Controllers\ViewController;
 |
 */
 
+ Route::post('/adminLogin', [AuthController::class, 'adminLogin'])->name('admin-login');
+ Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -37,7 +42,7 @@ Route::group([
     Route::post('PictureDelete', [PictureDelete::class, 'PictureDelete']);
     Route::get('UnapprovedPics', [UnapprovedPics::class, 'UnapprovedPics']);
 
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+
     Route::post('register', [AuthController::class, 'register']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);

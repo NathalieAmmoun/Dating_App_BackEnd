@@ -22,9 +22,9 @@ class CreateUsersTable extends Migration
 			$table->boolean('gender'); /* 0 for Male, 1 for Female */
 			$table->boolean('interested_in'); /* 0: interested in Men, 1: interested in Women */
 			$table->date('dob'); /* Date of birth */
-			$table->string('height');
-			$table->string('nationality');
-			$table->text('bio');
+			$table->string('height')->nullable();
+			$table->string('nationality')->nullable();
+			$table->text('bio')->nullable();
             $table->rememberToken();
             $table->timestamps();
 			$table->softDeletes();
