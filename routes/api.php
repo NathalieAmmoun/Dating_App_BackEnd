@@ -9,6 +9,7 @@ use App\Http\Controllers\PictureApis\PictureApproval;
 use App\Http\Controllers\PictureApis\PictureEdit;
 use App\Http\Controllers\PictureApis\PictureDelete;
 use App\Http\Controllers\PictureApis\UnapprovedPics;
+use App\Http\Controllers\PictureApis\PictureRejection;
 use App\Http\Controllers\ViewController;
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::group([
     //Jamal
     Route::post('picture_upload', [PictureUpload::class, 'pictureUpload']);
     Route::post('PictureApproval', [PictureApproval::class, 'PictureApproval']);
+    Route::post('PictureRejection', [PictureRejection::class, 'PictureRejection']);
     Route::post('PictureEdit', [PictureEdit::class, 'PictureEdit']);
     Route::post('PictureDelete', [PictureDelete::class, 'PictureDelete']);
     Route::get('UnapprovedPics', [UnapprovedPics::class, 'UnapprovedPics']);
@@ -63,4 +65,6 @@ Route::group([
     Route::get('notifications', [AuthController::class, 'getNotifications']);
     Route::get('get-favorites', [AuthController::class, 'getFavorites']);
     Route::get('get-connections', [AuthController::class, 'getConnections']);
+    Route::post('add-hobby', [AuthController::class, 'addHobby']);
+    Route::post('add-interest', [AuthController::class, 'addInterest']);
 });

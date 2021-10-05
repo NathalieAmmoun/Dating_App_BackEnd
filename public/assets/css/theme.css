@@ -332,7 +332,7 @@ section {
 }
 
 .page-content--bge5 {
-    background: #e5e5e5;
+    background: #ffffff;
     height: 100vh;
 }
 
@@ -345,6 +345,8 @@ section {
 .login-logo {
     text-align: center;
     margin-bottom: 30px;
+    width: 55%;
+    height: 55%;
 }
 
 .login-checkbox {
@@ -385,7 +387,7 @@ section {
 }
 
 .login-content {
-    background: #fff;
+    background: #ffffff;
     padding: 30px 30px 20px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -488,18 +490,19 @@ section {
 }
 
 .au-btn--green {
-    background: #63c76a;
+    background: #FF1493;
+    border-radius: 30px;
 }
 
 .au-btn--green:hover {
-    background: #59bd60;
+    background: #FF1493;
 }
 
 .au-btn-plus {
     position: absolute;
     height: 45px;
     width: 45px;
-    background: #63c76a;
+    background: #FF1493;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
@@ -527,7 +530,7 @@ section {
 }
 
 .au-btn-plus:hover {
-    background: #59bd60;
+    background: #FF1493;
 }
 
 .au-btn-load {
@@ -743,6 +746,7 @@ section {
 
 .au-input--full {
     width: 100%;
+    border-radius: 30px;
 }
 
 .au-input--h65 {

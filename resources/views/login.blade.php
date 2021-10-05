@@ -41,13 +41,16 @@
             <div class="container">
                 <div class="login-wrap">
                     <div class="login-content">
+                        <center>
                         <div class="login-logo">
                             <a href="#">
-                                <img src="{{asset('assets/images/icon/logo.png')}}" alt="CoolAdmin">
+                                <img src="{{asset('assets/images/icon/logo2.jpg')}}" alt="CoolAdmin">
                             </a>
                         </div>
+                        </center>
                         <div class="login-form">
                         {{ Form::open(['route' => ['admin-login'], 'id' => 'update_form', 'files' => true]) }}
+                        @CSRF
                         <div class="form-group">
                                     <label>Email Address</label>
                                     {{ Form::text('email','', ['placeholder' => 'email' ,'id' => 'email' ,'class' =>'au-input au-input--full email']) }}

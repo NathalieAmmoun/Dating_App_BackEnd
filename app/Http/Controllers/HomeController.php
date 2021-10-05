@@ -9,8 +9,4 @@ class HomeController extends Controller
     function index(){
         return view('login');
     } 
-
-    function mainPage(){
-        return view('dashboard');
-    }
 }
