@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\UserPicture;
 
-class PictureApproval extends Controller
+class PictureRejection extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:api');
     }
 
-    function PictureApproval(Request $request){
+    function PictureRejection(Request $request){
             
             $user = auth()->user();
             $user_type = $user->is_admin;
@@ -22,14 +22,13 @@ class PictureApproval extends Controller
 
             $picture_id = $request->picture_id;
             $pic = UserPicture::find($picture_id);
-            $pic->is_approved = 1;
-            $pic->save();
+            $pic->delete();
 
 
 
             return response()->json([
                 'status' => true,
-                'message' => 'Admin successfully approved picture',
+                'message' => 'Admin successfully deleted picture',
                 'picture' => $pic
             ], 201);
 

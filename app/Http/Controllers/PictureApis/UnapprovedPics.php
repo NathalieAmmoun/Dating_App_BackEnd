@@ -14,11 +14,11 @@ class UnapprovedPics extends Controller
         $this->middleware('auth:api');
     }
 
-    function UnapprovedPics(Request $request){
+    function UnapprovedPics(){
         $user = auth()->user();
         $user_type = $user->is_admin;
         if($user_type == 1){
-            $pic = UserPicture::all()->where('is_approved','0')->pagination(6);
+            $pic = UserPicture::all()->where('is_approved','0');
             return response()->json($pic);
         }
     }

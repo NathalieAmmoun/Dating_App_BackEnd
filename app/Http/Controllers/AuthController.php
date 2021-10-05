@@ -64,8 +64,10 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         
-        return redirect()->route('dashboard', ['access_token' => $token]);
-        // return $this->createNewToken($token);
+
+         $access_token = $token;
+         return view('dashboard')->with('token', $access_token);
+
     }
 
     /**
@@ -79,8 +81,8 @@ class AuthController extends Controller
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
-            'gender' => 'required|boolean',
-            'interested_in' => 'required|boolean',
+            'gender' => 'required',
+            'interested_in' => 'required',
             'dob' => 'date|before:-18 years|required',
 
         ]);
@@ -163,8 +165,9 @@ class AuthController extends Controller
         for($i = 0; $i < count($users_array); $i++){
             $id = $users_array[$i]->id;
             $pictures_array[$i]= UserPicture::where('user_id',$id)
+                                            ->where('is_profile_picture', '1')
                                             ->where('is_approved', '1')
-                                            ->get("id","picture_url");
+                                            ->get(["id","picture_url"]);
         }
 
         $result = array();
@@ -180,6 +183,7 @@ class AuthController extends Controller
         $user = User::find($id);
         $pictures = array();
         $pictures = UserPicture::where('user_id',$id)
+                                ->where('is_profile_picture', '1')
                                 ->where('is_approved', '1')
                                 ->get(["id","picture_url"]);
         $hobbies_array=array();
@@ -353,6 +357,38 @@ class AuthController extends Controller
                                                 ->get();
 
         return json_encode($notifications_array, JSON_PRETTY_PRINT);
+    }
+
+    public function addHobby(Request $request){
+        $user_id = auth()->user()->id;
+
+        $hobby = new UserHobby();
+        $hobby->user_id = $user_id;
+        $hobby->name = $request->name;
+        $hobby->save();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Hobby added successfully',
+        ], 201);
+
+    }
+
+    public function addInterest(Request $request){
+        $user_id = auth()->user()->id;
+
+        $interest = new UserInterest();
+        $interest->user_id = $user_id;
+        $interest->name = $request->name;
+        $interest->save();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Interest added successfully',
+        ], 201);
+
     }
 
 

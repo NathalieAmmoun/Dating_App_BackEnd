@@ -33,6 +33,7 @@
 </head>
 
 <body class="animsition">
+    <button  id="access_token" value= "{{$token}}" />
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
@@ -93,11 +94,9 @@
                         <div class="header-wrap float-right">
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
-                                        <div class="image">
-                                            <img src="{{asset('assets/images/icon/avatar-01.jpg')}}" alt="John Doe" />
-                                        </div>
+
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#">Admin</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             
@@ -120,62 +119,20 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                             
-                           
-                        
                         <div class="row">
-                        <div class="col-md-4">
-                                <div class="card">
-                                    <img class="card-img-top" src="{{asset('assets/images/bg-title-01.jpg')}}" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-3">Card Image Title</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                                            content.
-                                        </p>
-                                        <button type="button" class="btn btn-success">Approve</button>
-                                        <button type="button" class="btn btn-danger">Decline</button>
-                                    </div>
-                                   
-                            </div>
-</div>
-<div class="col-md-4">
-                                <div class="card">
-                                    <img class="card-img-top" src="{{asset('assets/images/bg-title-01.jpg')}}" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-3">Card Image Title</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                                            content.
-                                        </p>
-                                        <button type="button" class="btn btn-success">Approve</button>
-                                        <button type="button" class="btn btn-danger">Decline</button>
-                                    </div>
-                            </div>
-</div>
-<div class="col-md-4">
-                                <div class="card">
-                                    <img class="card-img-top" src="{{asset('assets/images/bg-title-01.jpg')}}" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-3">Card Image Title</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                                            content.
-                                        </p>
-                                        <button type="button" class="btn btn-success">Approve</button>
-                                        <button type="button" class="btn btn-danger">Decline</button>
-                                    </div>
-                            </div>
-</div>
-</div>
-                       
-                            </div>
-                            </div>
+                        <div class="col-md-4 pics_div" id="pics_div">
                         </div>
+                        </div>
+                       
                     </div>
                 </div>
             </div>
+        </div>
             <!-- END MAIN CONTENT-->
             <!-- END PAGE CONTAINER-->
-        </div>
-
     </div>
+
+
 
     <!-- Jquery JS-->
     <script src="{{asset('assets/vendor/jquery-3.2.1.min.js')}}"></script>
@@ -200,6 +157,7 @@
 
     <!-- Main JS-->
     <script src="{{asset('assets/js/main.js')}}"></script>
+    <script src="{{asset('assets/js/apis.js')}}"></script>
 
 </body>
 

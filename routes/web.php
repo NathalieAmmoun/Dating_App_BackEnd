@@ -15,6 +15,5 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::any('/', [HomeController::class, 'index'])->name('index');
-Route::any('dashboard', [HomeController::class, 'mainPage'])->name('dashboard');
 
 
