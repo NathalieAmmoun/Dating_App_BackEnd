@@ -153,12 +153,17 @@ class AuthController extends Controller
 
     //Display potential matches Based on their gender and what gender they are interested in and 
     public function display(){
+        $user_id =auth()->user()->id;
         $gender = auth()->user()->gender;
         $interested_in = auth()->user()->interested_in;
-      
+        $favorites_user2_id = UserFavorite::where('user1_id', $user_id)
+                            ->pluck('user2_id')
+                            ->all();  
+
         $users_array = array();
         $users_array = User::where('gender', $interested_in)
                         ->where('interested_in', $gender)
+                        ->whereNotIn('id', $favorites_user2_id)
                         ->get();
         $id = 0;
         $pictures_array = array();
