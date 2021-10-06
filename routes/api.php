@@ -67,4 +67,5 @@ Route::group([
     Route::get('get-connections', [AuthController::class, 'getConnections']);
     Route::post('add-hobby', [AuthController::class, 'addHobby']);
     Route::post('add-interest', [AuthController::class, 'addInterest']);
+    Route::post('continue-registration', [AuthController::class, 'continueRegistration']);
 });
