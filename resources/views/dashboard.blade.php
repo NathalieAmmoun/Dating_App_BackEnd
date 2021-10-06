@@ -37,11 +37,11 @@
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
-            <div class="header-mobile__bar">
+            <div class="header-mobile__bar" >
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="#">
-                            <img src="{{asset('assets/images/icon/logo.png')}}" alt="CoolAdmin" />
+                            <img src="{{asset('assets/images/icon/logo4.png')}}" alt="CoolAdmin" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -51,14 +51,9 @@
                     </div>
                 </div>
             </div>
-            <nav class="navbar-mobile">
-                <div class="container-fluid">
-                    <ul class="navbar-mobile__list list-unstyled">
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        </li>
-                    </ul>
+            <nav class="navbar-mobile" >
+                <div class="container-fluid" >
+
                 </div>
             </nav>
         </header>
@@ -68,14 +63,14 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="{{asset('assets/images/icon/logo.png')}}" alt="Cool Admin" />
+                    <h2 style="color: white;">Admin Panel</h2>
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="#">
+                            <a class="js-arrow" href="#" style="color: #FE5267">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                             
                         </li>
@@ -96,12 +91,12 @@
                                     <div class="account-item clearfix js-item-menu">
 
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">Admin</a>
+                                            <a class="js-acc-btn" style="color: white;" href="#">Admin</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
+                                                <a href="http://127.0.0.1:8000/api/auth/logout">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
@@ -115,19 +110,19 @@
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
-            <div class="main-content">
+            <h2 style="padding-left: 5%;padding-top: 5%;">Recently Uploaded</h2>
+            <div class="main-content" style="padding-top:5%">
+            
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                            
                         <div class="row">
                         <div class="col-md-4 pics_div" id="pics_div">
                         </div>
                         </div>
-                       
                     </div>
                 </div>
             </div>
-        </div>
+        
             <!-- END MAIN CONTENT-->
             <!-- END PAGE CONTAINER-->
     </div>

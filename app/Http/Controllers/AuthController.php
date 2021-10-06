@@ -125,8 +125,8 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-
-        return response()->json(['message' => 'User successfully signed out']);
+        return view('login');
+        // return response()->json(['message' => 'User successfully signed out']);
     }
 
     /**
@@ -306,6 +306,7 @@ class AuthController extends Controller
                                         
         
         //if there's no match
+
         if($check_favorite->isEmpty()){
 
             //send a notification to user 2

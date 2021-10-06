@@ -20,7 +20,7 @@ class PictureRejection extends Controller
             $user_type = $user->is_admin;
             if($user_type == 1){
 
-            $picture_id = $request->picture_id;
+            $picture_id = ($request->header('pictureid'));
             $pic = UserPicture::find($picture_id);
             $pic->delete();
 

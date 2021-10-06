@@ -33,7 +33,7 @@ class PictureUpload extends Controller
         $pic->user_id = $user_id;
         $pic->picture_url = 'http://127.0.0.1:8000/storage/'.$picture_save;
         $pic->is_profile_picture = 1;
-        $pic->is_approved = 1;
+        $pic->is_approved = 0;
         $pic->save();
         return response()->json([
             'status' => true,
