@@ -153,12 +153,17 @@ class AuthController extends Controller
 
     //Display potential matches Based on their gender and what gender they are interested in and 
     public function display(){
+        $user_id =auth()->user()->id;
         $gender = auth()->user()->gender;
         $interested_in = auth()->user()->interested_in;
-      
+        $favorites_user2_id = UserFavorite::where('user1_id', $user_id)
+                            ->pluck('user2_id')
+                            ->all();  
+
         $users_array = array();
         $users_array = User::where('gender', $interested_in)
                         ->where('interested_in', $gender)
+                        ->whereNotIn('id', $favorites_user2_id)
                         ->get();
         $id = 0;
         $pictures_array = array();
@@ -286,7 +291,7 @@ class AuthController extends Controller
         $user1_name = auth()->user()->name;
         $user2_id = $request->user2_id;
         $user2_name = User::find($user2_id)->userName();
-
+        
         //add to favorites
         $user_favorite = new UserFavorite();
         $user_favorite->user1_id = $user1_id;
@@ -295,12 +300,14 @@ class AuthController extends Controller
 
 
         //check if user 2 favorites user 1
-        $check_favorite = UserFavorite::where('user1_id', $user2_id)
-                                        ->where('user2_id', $user1_id)
+        $check_favorite = UserFavorite::where('user1_id',"=", $user2_id)
+                                        ->where('user2_id',"=", $user1_id)
                                         ->get();
+                                        
         
         //if there's no match
-        if($check_favorite == null){
+
+        if($check_favorite->isEmpty()){
 
             //send a notification to user 2
             $user_notification = new UserNotification();
@@ -310,37 +317,35 @@ class AuthController extends Controller
             $user_notification->is_read = "0";
             $user_notification->save();
 
-        }
+            }else{
 
-        else{
+                //send a notification to user 1 to let them know about the match
+                $user_notification1 = new UserNotification();
+                $user_notification1->user_id = $user1_id;
+                $user_notification1->created_by_user_id = $user2_id;
+                $user_notification1->body = $user2_name." matches you!";
+                $user_notification1->is_read = "0";
+                $user_notification1->save();
 
-            //send a notification to user 1 to let them know about the match
-            $user_notification1 = new UserNotification();
-            $user_notification1->user_id = $user1_id;
-            $user_notification1->created_by_user_id = $user2_id;
-            $user_notification1->body = $user2_name." matches you!";
-            $user_notification1->is_read = "0";
-            $user_notification1->save();
+                //add user 2 to connections of user 1
+                $user_connection1 = new UserConnection();
+                $user_connection1->user1_id = $user1_id;
+                $user_connection1->user2_id = $user2_id;
+                $user_connection1->save();
 
-            //add user 2 to connections of user 1
-            $user_connection1 = new UserConnection();
-            $user_connection1->user1_id = $user1_id;
-            $user_connection1->user2_id = $user2_id;
-            $user_connection1->save();
+                //send a notification to user 2 to let them know about the match
+                $user_notification2 = new UserNotification();
+                $user_notification2->user_id = $user2_id;
+                $user_notification2->created_by_user_id = $user1_id;
+                $user_notification2->body = $user1_name." matches you!";
+                $user_notification2->is_read = "0";
+                $user_notification2->save();
 
-            //send a notification to user 2 to let them know about the match
-            $user_notification2 = new UserNotification();
-            $user_notification2->user_id = $user2_id;
-            $user_notification2->created_by_user_id = $user1_id;
-            $user_notification2->body = $user1_name." matches you!";
-            $user_notification2->is_read = "0";
-            $user_notification2->save();
-
-            //add user 1 to connections of user 2
-            $user_connection2 = new UserConnection();
-            $user_connection2->user1_id = $user2_id;
-            $user_connection2->user2_id = $user1_id;
-            $user_connection2->save();
+                //add user 1 to connections of user 2
+                $user_connection2 = new UserConnection();
+                $user_connection2->user1_id = $user2_id;
+                $user_connection2->user2_id = $user1_id;
+                $user_connection2->save();
         }
 
         return response()->json([
