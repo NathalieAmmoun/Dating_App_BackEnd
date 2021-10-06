@@ -206,6 +206,19 @@ class AuthController extends Controller
         return $result;
     }
 
+    public function continueRegistration(Request $request){
+        $user_id = auth()->user()->id;
+
+        $user = User::find($user_id);
+        $user->nationality = $request->nationality;
+        $user->height = $request->height;
+        $user->bio = $request->bio;
+        $user->save();
+
+        return response()->json(['message' => 'Registration successfully completed']);
+
+    }
+
     
     public function editProfileInformation(Request $req){
         $id =auth()->user()->id;
