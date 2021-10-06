@@ -125,8 +125,8 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-
-        return response()->json(['message' => 'User successfully signed out']);
+        return view('login');
+        // return response()->json(['message' => 'User successfully signed out']);
     }
 
     /**
@@ -300,7 +300,7 @@ class AuthController extends Controller
                                         ->get();
         
         //if there's no match
-        if(empty($check_favorite)){
+        if($check_favorite == null){
 
             //send a notification to user 2
             $user_notification = new UserNotification();

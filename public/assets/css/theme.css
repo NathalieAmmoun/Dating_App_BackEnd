@@ -344,9 +344,9 @@ section {
 
 .login-logo {
     text-align: center;
-    margin-bottom: 30px;
-    width: 55%;
-    height: 55%;
+    margin-bottom: 70px;
+    width: 150px;
+    height: 150px;
 }
 
 .login-checkbox {
@@ -490,19 +490,19 @@ section {
 }
 
 .au-btn--green {
-    background: #FF1493;
-    border-radius: 30px;
+    background: #FE5267;
+    border-radius: 10px;
 }
 
 .au-btn--green:hover {
-    background: #FF1493;
+    background: #FE5267;
 }
 
 .au-btn-plus {
     position: absolute;
     height: 45px;
     width: 45px;
-    background: #FF1493;
+    background: #FE5267;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
@@ -530,7 +530,7 @@ section {
 }
 
 .au-btn-plus:hover {
-    background: #FF1493;
+    background: #FE5267;
 }
 
 .au-btn-load {
@@ -746,7 +746,7 @@ section {
 
 .au-input--full {
     width: 100%;
-    border-radius: 30px;
+    border-radius: 10px;
 }
 
 .au-input--h65 {
@@ -1186,7 +1186,7 @@ section {
 
 /* ----- Header ----- */
 .header-desktop {
-    background: #f5f5f5;
+    background: #FE5267;
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
@@ -1591,7 +1591,7 @@ section {
 }
 
 .menu-sidebar .logo {
-    background: #f5f5f5;
+    background: #FE5267;
     height: 75px;
     padding: 0 35px;
     display: -webkit-box;

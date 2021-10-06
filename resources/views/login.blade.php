@@ -44,7 +44,7 @@
                         <center>
                         <div class="login-logo">
                             <a href="#">
-                                <img src="{{asset('assets/images/icon/logo2.jpg')}}" alt="CoolAdmin">
+                                <img src="{{asset('assets/images/icon/logo4.png')}}" alt="CoolAdmin">
                             </a>
                         </div>
                         </center>

@@ -4,7 +4,7 @@ function getUnapprovedPictures(){
     unApprovedPicturesAPI().then(pictures=>{
         console.log(pictures);
          $.each(pictures, function(index, picture){
-             $(".pics_div").append("<div id='picture_"+picture.id+"' class='card'><img class='card-img-top' src='http://127.0.0.1:8000/storage/"+picture.picture_url+"' alt='Card image cap'><div class='card-body'><button type='button' onclick='approve("+picture.id+");' class='btn btn-success'>Approve</button>&nbsp<button type='button' onclick='deletePic("+picture.id+");' class='btn btn-danger'>Decline</button></div></div>");
+             $(".pics_div").append("<div id='picture_"+picture.id+"' class='card'><img class='card-img-top' src='"+picture.picture_url+"' alt='Card image cap'><div class='card-body'><button style='width:50%' type='button' onclick='approve("+picture.id+");' class='btn btn-success'>Approve</button><button type='button' style='width:50%' onclick='deletePic("+picture.id+");' class='btn btn-danger'>Decline</button></div></div>");
     });
 }).catch(error => {
     console.log(error.message);
@@ -46,17 +46,16 @@ function approve(picture_id){
 }
 
 async function approveAPI(picture_id){
+    console.log(picture_id);
     var access_token = $("#access_token").val();
     var authorization = "bearer "+access_token;
     var accept = "application/json";
-    const data = {picture_id : picture_id};
     const response = await fetch("http://127.0.0.1:8000/api/auth/PictureApproval", {
         method: 'POST',
-        data: {
-            "picture_id": picture_id
-        },
         headers: {
             'Authorization': authorization,
+            'Accept' : accept,
+            'pictureID': picture_id
         },
 
     });
@@ -83,14 +82,12 @@ async function deletePicAPI(picture_id){
     var access_token = $("#access_token").val();
     var authorization = "bearer "+access_token;
     var accept = "application/json";
-    const data = {picture_id : picture_id};
     const response = await fetch("http://127.0.0.1:8000/api/auth/PictureRejection", {
         method: 'POST',
-        data: {
-            "picture_id": picture_id
-        },
         headers: {
             'Authorization': authorization,
+            'Accept' : accept,
+            'pictureID': picture_id
         },
 
     });
